@@ -9,6 +9,7 @@ use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
 use App\Models\Auth\Role;
 use App\Models\Auth\RoleUser;
+use App\Models\Trip\Trip;
 
 class User extends Authenticatable
 {
@@ -59,6 +60,11 @@ class User extends Authenticatable
         }
 
         abort(401, 'Unauthorize');
+    }
+
+    public function trips()
+    {
+        return $this->hasMany(Trip::class);
     }
 
     public function hasAnyRoles($roles)
