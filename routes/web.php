@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Car\CarController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\Test\AdminController;
 use App\Http\Controllers\Test\StaffController;
@@ -32,5 +33,16 @@ Route::middleware('auth')->group(function () {
 
 Route::get('/admin', [AdminController::class,'index']);
 Route::get('/staff', [StaffController::class,'index']);
+
+Route::middleware(['auth', 'role:admin,staff'])->group(function(){
+
+    //Car Route
+    Route::get('/car', [CarController::class, 'index'])->name('car.index');
+    Route::get('/car/data', [CarController::class, 'show'])->name('car.data');
+    Route::post('/car', [CarController::class, 'store'])->name('car.create');
+    Route::delete('/car/{id}', [CarController::class, 'destroy'])->name('car.destroy');
+    Route::patch('/car/{id}/{status}', [CarController::class, 'updateStatus'])->name('car.status');
+    Route::put('/car/{id}', [CarController::class, 'update'])->name('car.update');
+});
 
 require __DIR__.'/auth.php';
